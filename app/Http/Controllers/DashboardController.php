@@ -20,11 +20,16 @@ class DashboardController extends Controller
         $loanKeys = Keys::where('status', 'I')->count();
 
         //Requests
-        $requests = Requests::all();
+
         $requests = DB::table('requests')
-                    ->join('keys', 'barcode', '=', 'keys.barcode')
+                    ->join('keys', 'keys.barcode', '=', 'requests.barcode')
                     ->select('requests.*', 'keys.status')
                     ->get();
+//        $keys = DB::table('keys')
+//            ->join('sectors', 'sector_id', '=', 'sectors.id')
+//            ->join('types', 'type_id', '=', 'types.id')
+//            ->select('keys.*', 'types.name as type', 'sectors.name as sector')
+//            ->get();
 
         return view('dashboard', compact('requests', 'allKeys', 'loanKeys'));
     }

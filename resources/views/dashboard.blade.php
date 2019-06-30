@@ -66,12 +66,6 @@
                                                 <span class="label label-danger"> Saída </span>
                                                 {{\Carbon\Carbon::parse($r->loan_date )->format(' d/m/Y  H:i:s ')}}
                                             </td>
-                                            <?php if ($r->name == 'Indisponível'):?>
-                                                <td><span class="label label-danger">Não Entregue</span></td>
-                                            <?php else:?>
-                                            <td><span class="label label-primary">Entrada</span> <?=date('d/m/Y', strtotime($r->dt_devolucao))?></td>
-                                            <?php endif; ?>
-
 
                                                 @if ($r->devolution_date == null)
                                                     <td>
