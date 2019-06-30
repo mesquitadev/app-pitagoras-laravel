@@ -6,6 +6,7 @@ use App\Events\RequestIsCreated;
 use App\Models\Keys;
 use App\Models\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RequestController extends Controller
 {
@@ -37,45 +38,58 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'cpf' => 'required',
-            'barcode' => 'required|unique',
-            'username' => 'required',
-            'key' => 'required',
-            'type' => 'required',
-            'service' => 'required',
-            'company' => 'required',
-            'manager' => 'required'
-        ]);
+//        $this->validate($request, [
+//            'barcode' => 'required',
+//            'cpf' => 'required',
+//            'username' => 'required',
+//            'phone' => 'required',
+//            'key' => 'required',
+//            'type' => 'required',
+//            'service' => 'required',
+//            'company' => 'required',
+//            'manager' => 'required',
+//            'concierge' => 'required'
+//        ]);
         $data = new Requests([
             'cpf' => $request->get('cpf'),
             'barcode' => $request->get('barcode'),
             'username' => $request->get('username'),
+            'phone' => $request->get('phone'),
             'key' => $request->get('key'),
             'type' => $request->get('type'),
             'service' => $request->get('service'),
             'company' => $request->get('company'),
-            'manager' => $request->get('manager')
+            'manager' => $request->get('manager'),
+            'concierge' => $request->get('concierge')
         ]);
 
-        $data->save();
+        //Faz a Atualização do status da chave
+        $updateStatus = DB::table('keys')
+            ->where('barcode', $request->get('barcode'))
+            ->update(['status' => 'I']);
+
+        if($updateStatus){
+            $data->save();
+        }
 
         $response = $data->save();
 
         if ($response) {
-            //Recupera a chave no banco para passar o id pro evento
-            $key = Keys::where('barcode', $request->get('barcode'));
-            //Dispara o evento pra atualizar a tabela do status
-            event(new RequestIsCreated($key));
-
             //Passa a notificação para a view para iterar no swal pela sessão
             $notification = array(
                 'success' => true,
+                'title' => 'Sucesso!',
                 'message' => 'Chave solicitada com Sucesso!',
                 'alert-type' => 'success'
             );
 
-
+        } elseif(!$this->validate){
+            $notification = array(
+                'error' => true,
+                'title' => 'Erro!',
+                'message' => 'Campos necessários não foram digitados!',
+                'alert-type' => 'error'
+            );
         } else {
             //Passa a notificação pela sessão para a view
             $notification = array(
@@ -86,7 +100,7 @@ class RequestController extends Controller
 
         }
 
-        return redirect('dashboard')->with($notification);
+        return redirect()->back()->with($notification);
 
     }
 

@@ -49,8 +49,9 @@ class KeyController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'barcode' => 'required|unique',
-            'sector_id' => 'required'
+            'barcode' => 'required|unique:keys,barcode|min:12|max:12',
+            'sector_id' => 'required',
+            'type_id' => 'required'
         ]);
 
         $data =  new Keys([

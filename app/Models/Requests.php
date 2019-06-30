@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Requests extends Model
 {
     protected $fillable = [
-        'cpf',
         'barcode',
+        'cpf',
         'username',
+        'phone',
         'key',
         'type',
         'service',
         'company',
-        'manager'
+        'manager',
+        'concierge'
     ];
 }

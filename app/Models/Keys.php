@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Keys extends Model
 {
+    protected $table = 'keys';
+
     protected $fillable = [
         'name',
         'barcode',
@@ -13,16 +15,4 @@ class Keys extends Model
         'type_id'
     ];
 
-    /**
-     * @param $barcode
-     */
-    public function ifExists($barcode)
-    {
-        $data = Keys::where('barcode', $barcode);
-        if(!$data){
-            return "Não existe";
-        }
-
-        return "Já cadastrado!";
-    }
 }

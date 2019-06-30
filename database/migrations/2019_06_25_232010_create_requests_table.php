@@ -15,16 +15,17 @@ class CreateRequestsTable extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('key_id')->unsigned();
-            $table->foreign('key_id')->references('id')->on('keys');
+            $table->string('barcode');
+            $table->string('cpf');
+            $table->string('username');
+            $table->string('phone');
+            $table->string('key');
+            $table->string('type');
             $table->string('service');
-            $table->string('manager');
             $table->string('company');
-            //Id do usuário solicitante
-            $table->bigInteger('usr_req_id')->unsigned();
-            $table->foreign('usr_req_id')->references('id')->on('request_users');
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('manager');
+            //Get User Authenticated id
+            $table->string('concierge');
             $table->dateTime('loan_date')->default(\Carbon\Carbon::now());
             $table->dateTime('devolution_date')->nullable();
             $table->timestamps();

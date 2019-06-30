@@ -29,25 +29,23 @@
                                     <h5>Solicitar Chave</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <form id="addRequest" action="{{route('request.store')}}" class="forrm-horizontal"
-                                          method="POST">
+                                    <form action="{{route('request.store')}}" class="forrm-horizontal" method="POST">
                                         @csrf
-
                                         <div class="row">
                                             <div class="form-group col-sm-6">
                                                 <label for="cpf" class="control-label">CPF do Solicitante:</label>
-                                                <input type="text" id="cpf" name="cpf" class="form-control" id="cpf"
-                                                       placeholder="Digite o Cpf do solicitante">
+                                                <input type="text" name="cpf" class="form-control" id="cpf" placeholder="Digite o Cpf do solicitante">
                                             </div>
 
                                             <div class="form-group col-sm-6">
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label">Usuário:</label>
-                                                    <input type="text" name="user_name" class="form-control" id="user_nome"readonly>
+                                                    <input type="text" name="username" class="form-control" id="username"readonly>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label"> Telefone:</label>
-                                                    <input type="text" class="form-control" id="telefone" readonly>
+                                                    <input type="text" class="form-control" name="phone" id="phone"
+                                                           readonly>
                                                 </div>
                                             </div>
 
@@ -58,15 +56,17 @@
                                                 <label for="inputEmail3" class="control-label">Código da Chave:</label>
                                                 <input type="number" name="barcode" class="form-control" id="barcode" placeholder="Digite o código da chave">
                                             </div>
-
                                             <div class="form-group col-sm-6">
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label"> Chave:</label>
-                                                    <input type="text" class="form-control" id="nome" readonly>
+                                                    <input type="text" class="form-control" name="key" id="key"
+                                                           readonly>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <label for="inputEmail3" class="control-label"> Tipo de Chave:</label>
-                                                    <input type="text" class="form-control" id="tipo_chave" readonly>
+                                                    <label for="inputEmail3" class="control-label"> Tipo de
+                                                        Chave:</label>
+                                                    <input type="text" class="form-control" name="type" id="type"
+                                                           readonly>
                                                 </div>
 
                                             </div>
@@ -81,7 +81,7 @@
                                             <div class="form-group col-sm-6">
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label">Serviço a ser Realizado:</label>
-                                                    <input type="text" class="form-control" name="request_service" required>
+                                                    <input type="text" class="form-control" name="service" required>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label">Empresa:</label>
@@ -99,11 +99,12 @@
                                             <div class="form-group col-sm-6">
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label">Gestor:</label>
-                                                    <input type="text" class="form-control" name="request_manager" required>
+                                                    <input type="text" class="form-control" name="manager" required>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <label for="inputEmail3" class="control-label">Portaria:</label>
-                                                    <input type="text" class="form-control" name="user_id" value="{{auth()->user()->name}}"readonly>
+                                                    <input type="text" class="form-control" name="concierge"
+                                                           value="{{auth()->user()->name}}" readonly>
                                                 </div>
                                             </div>
 
@@ -151,40 +152,44 @@
 
             $("#barcode").blur(function(){
                 var barcode = $(this).val().replace(/\D/g, '');
-                if(barcode != ""){
+                if(barcode !== ""){
                     var validator = /^[0-9]{12}$/;
 
                     if(validator.test(barcode)){
                         //Preenche os campos com "..." até achar os dados
-                        $("#nome").val("...");
+                        $("#nome").val("Buscando...");
+                        $("#type").val("Buscando...");
 
                         $.ajax({
                             url: "{{url('/chaves/info/')}}/"+barcode,
                             type: 'GET',
                             dataType: 'json',
                             success: function(data){
-                                console.log(data)
                                 if(data.error){
-                                    swal(data.title, data.message, data.status);
+                                    swal(
+                                        data.title,
+                                        data.message,
+                                        data.status
+                                    );
                                     setTimeout(function(){ location.reload(); }, 3000);
                                 } else {
-                                    $('#nome').val(data['data'][0].name);
-                                    $('#tipo_chave').val(data['data'][0].type);
+                                    $('#key').val(data['data'][0].name);
+                                    $('#type').val(data['data'][0].type);
                                 }
 
                             }
                         });
 
                     } else {
-                        toastr.warning("Erro", "Código de barras inválido");
                         swal("Erro!", "Código de barras inválido", "warning");
                         setTimeout(function(){ location.reload(); }, 2000);
                     }
                 }
             });
+
             $("#cpf").blur(function(){
                 var cpf = $(this).val().replace(/\D/g, '');
-                if(cpf != ""){
+                if(cpf !== ""){
                     var validator = /^([0-9]){3}([0-9]){3}([0-9]){3}([0-9]){2}$/;
 
                     if(validator.test(cpf)){
@@ -192,18 +197,23 @@
                         $("#user_nome").val("Buscando...");
                         $("#telefone").val("Buscando...");
 
+                        //Instância do AJAX
                         $.ajax({
                             url: "{{url('/solicitantes/info/')}}/"+cpf,
                             type: 'GET',
                             dataType: 'json',
                             success: function(data){
                                 if(data.error === true){
-                                    swal("Erro", "Usuário não encontrado", "warning");
+                                    swal(
+                                        data.title,
+                                        data.message,
+                                        data.status
+                                    );
                                     setTimeout(function(){ location.reload(); }, 2000);
                                 } else {
                                     console.log(data)
-                                    $('#user_nome').val(data['data'][0].name);
-                                    $('#telefone').val(data['data'][0].phone1);
+                                    $('#username').val(data['data'][0].name);
+                                    $('#phone').val(data['data'][0].phone1);
                                 }
 
                             }
@@ -211,7 +221,6 @@
 
                     } else {
                         swal("Erro!", "CPF Inválido, Favor, verifique os dados inseridos", "warning");
-
                         setTimeout(function(){ location.reload(); }, 2000);
                     }
                 }

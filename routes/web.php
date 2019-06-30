@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function (){
 
     //Requisição
     Route::get('/chaves/solicitar', 'RequestController@create')->name('request.create');
-    Route::post('/chaves/store', 'RequestController@store')->name('request.store');
+    Route::post('/chaves/solicitar/store', 'RequestController@store')->name('request.store');
 
     //Solicitantes
     Route::get('/solicitantes', 'RequestUsersController@index')->name('request-user.index');

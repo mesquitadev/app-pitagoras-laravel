@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Keys;
+use App\Models\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -19,11 +20,11 @@ class DashboardController extends Controller
         $loanKeys = Keys::where('status', 'I')->count();
 
         //Requests
+        $requests = Requests::all();
         $requests = DB::table('requests')
-            ->join('keys', 'key_id', '=', 'keys.id')
-            ->join('request_users', 'usr_req_id', '=', 'request_users.id')
-            ->select('requests.*', 'request_users.name as request', 'keys.barcode as barcode', 'keys.name as key')
-            ->get();
+                    ->join('keys', 'barcode', '=', 'keys.barcode')
+                    ->select('requests.*', 'keys.status')
+                    ->get();
 
         return view('dashboard', compact('requests', 'allKeys', 'loanKeys'));
     }
