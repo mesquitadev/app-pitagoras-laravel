@@ -1,6 +1,5 @@
 # Pitágoras SGC+
-Aplicação desenvolvida por [@mesquitadev](https://github.com/mesquitadev) para controle de chaves da portaria para a faculdade pitagoras
-
+Aplicação desenvolvida por [@mesquitadev](https://github.com/mesquitadev) para controle de chaves da portaria para a ###[ Faculdade Pitágoras](http://pitagoras.com.br/)
 
 
 ### Instalação
