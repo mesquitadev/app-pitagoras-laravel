@@ -1,5 +1,5 @@
 # app-pitagoras-laravel
-Aplicação desenvolvida por <sub>@mesquitadev</sub>(https://github.com/mesquitadev) para controle de chaves da portaria para a faculdade pitagoras
+Aplicação desenvolvida por [@mesquitadev](https://github.com/mesquitadev) para controle de chaves da portaria para a faculdade pitagoras
 
 [<img src="https://avatars.githubusercontent.com/mesquitadev?s=115"><br><sub>Victor Mesquita</sub>](https://github.com/mesquitadev)
 
