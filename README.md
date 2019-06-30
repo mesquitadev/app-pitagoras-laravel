@@ -1,4 +1,4 @@
-# app-pitagoras-laravel
+# Pitágoras SGC+
 Aplicação desenvolvida por [@mesquitadev](https://github.com/mesquitadev) para controle de chaves da portaria para a faculdade pitagoras
 
 
