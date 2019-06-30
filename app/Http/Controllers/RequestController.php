@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\RequestIsCreated;
+use App\Models\Keys;
 use App\Models\Requests;
 use Illuminate\Http\Request;
 
@@ -63,10 +64,10 @@ class RequestController extends Controller
 
         if ($response) {
 
-            event(new RequestIsCreated($response));
-            echo "success";
-
+            $key = Keys::where('barcode', $request->get('barcode'));
+            event(new RequestIsCreated($key));
             $notification = array(
+                'success' => true,
                 'message' => 'Chave solicitada com Sucesso!',
                 'alert-type' => 'success'
             );

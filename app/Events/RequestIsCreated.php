@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Requests;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -20,9 +19,9 @@ class RequestIsCreated
      *
      * @return void
      */
-    public function __construct(Requests $requests)
+    public function __construct()
     {
-        $this->requests = $requests;
+        //
     }
 
     /**
