@@ -24,13 +24,14 @@ class RequestUsersController extends Controller
     public function info($cpf)
     {
         $data = RequestUsers::where('cpf', $cpf)->get();
-        $count = RequestUsers::where('cpf', $cpf)->count();
 
-        if($count <= 0){
-            return response()->json([
+        if(count($data) <= 0){
+            return array(
+                'title' => 'Erro!',
                 'error' => true,
-                'message' => 'Usuário não encontrado!'
-            ], 400);
+                'message' => 'Usuário não encontrado!',
+                'status' => 'error',
+            );
         } else {
             return response()->json(['data' => $data], 201);
         }

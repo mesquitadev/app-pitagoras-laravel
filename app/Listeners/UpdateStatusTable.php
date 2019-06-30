@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\RequestIsCreated;
+use App\Models\Keys;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,6 +27,9 @@ class UpdateStatusTable
      */
     public function handle(RequestIsCreated $event)
     {
-        //
+        return DB::table('keys')
+                    ->where('id', $event->id)
+                    ->update(['status', 'I']);
+
     }
 }

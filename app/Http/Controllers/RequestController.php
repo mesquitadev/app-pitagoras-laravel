@@ -63,9 +63,12 @@ class RequestController extends Controller
         $response = $data->save();
 
         if ($response) {
-
+            //Recupera a chave no banco para passar o id pro evento
             $key = Keys::where('barcode', $request->get('barcode'));
+            //Dispara o evento pra atualizar a tabela do status
             event(new RequestIsCreated($key));
+
+            //Passa a notificação para a view para iterar no swal pela sessão
             $notification = array(
                 'success' => true,
                 'message' => 'Chave solicitada com Sucesso!',
@@ -74,9 +77,10 @@ class RequestController extends Controller
 
 
         } else {
-            echo "error";
+            //Passa a notificação pela sessão para a view
             $notification = array(
-                'message' => 'Erro! Chave não identificada!',
+                "error" => true,
+                "message" => "Erro! Chave não cadastrada!",
                 'alert-type' => 'warning'
             );
 

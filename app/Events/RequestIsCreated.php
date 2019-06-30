@@ -14,14 +14,15 @@ class RequestIsCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $key;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Keys $key)
     {
-        //
+        $this->key = $key;
     }
 
     /**

@@ -114,14 +114,12 @@ class KeyController extends Controller
             ->select('keys.*', 'types.name as type')
             ->where('barcode', $barcode)
             ->get();
-        $count = Keys::where('barcode', $barcode)->count();
 
-
-        if($count <= 0){
+        if(count($data) <= 0){
             return array(
                 'title' => 'Erro!',
                 'error' => true,
-                'message' => 'Chave não encontrada!',
+                'message' => 'Chave não encontrada  !',
                 'status' => 'error',
             );
         } else {
