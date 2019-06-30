@@ -1,6 +1,7 @@
 # app-pitagoras-laravel
-Aplicação desenvolvida por @mesquitadev para controle de chaves da portaria para a faculdade pitagoras
+Aplicação desenvolvida por <>@mesquitadev para controle de chaves da portaria para a faculdade pitagoras
 
+[<img src="https://avatars.githubusercontent.com/mesquitadev?s=115"><br><sub>Victor Mesquita</sub>](https://github.com/mesquitadev)
 
 ### Instalação
 1. Faça o download dos arquivos.
