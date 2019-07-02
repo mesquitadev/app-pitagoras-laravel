@@ -107,37 +107,37 @@ class RequestUsersController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $reqUser = RequestUsers::findOrFail($request->id);
+        $data = $reqUser->update($request->all());
+        //Remove Máscara do CPF
+        $request->cpf = $this->removeMask($request->cpf);
+
+        if($data){
+            $notification = array(
+                "error" => false,
+                "message" => "Sucesso! Dados atualizados com sucesso",
+                'alert-type' => 'success'
+            );
+            $reqUser->update($request->all());
+
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 
     /**

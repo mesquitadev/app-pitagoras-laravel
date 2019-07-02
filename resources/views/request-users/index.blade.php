@@ -60,9 +60,17 @@
                                     <td>{{\Carbon\Carbon::parse($r->created_at )->format('d/m/Y  H:i:s') }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="" class="btn btn-primary btn-sm">Editar</a>
-                                            <a href="" class="btn btn-info btn-sm">Visualizar</a>
-                                            <a href="" class="btn btn-danger btn-sm">Deletar</a>
+                                            <button class="btn-warning btn btn-xs"
+                                                    data-cpf="{{$r->cpf}}"
+                                                    data-name="{{$r->name}}"
+                                                    data-phone1="{{$r->phone1}}"
+                                                    data-phone2="{{$r->phone2}}"
+                                                    data-toggle="modal"
+                                                    data-target="#edit-request-user"
+                                                    data-id="{{$r->id}}"
+                                            >Editar</button>
+                                            <button class="btn btn-danger btn-xs" data-id="{{$r->id}}"
+                                                    id="delete-request-user">Apagar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -102,7 +110,7 @@
 
                 <div class="modal-body">
 
-                    <form id="addRequestUser" action="{{route('request-user.store')}}" method="POST" class="form-horizontal">
+                    <form action="{{route('request-user.store')}}" method="POST" class="form-horizontal">
                         @csrf
                         <div class="form-group">
                             <label for="cpf" class="col-sm-2 control-label">CPF:</label>
@@ -113,7 +121,7 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">Nome Completo:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="name" class="form-control" required>
+                                <input type="text" name="name" id="name" class="form-control" required>
                             </div>
                         </div>
 
@@ -133,7 +141,61 @@
 
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-white" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Encerra modal-->
+
+    <!--Modal Editar Setor   -->
+    <div class="modal inmodal fade" id="edit-request-user" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title"><i class="fa fa-edit"></i> Editar Solicitante</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <form action="{{route('request-user.update')}}" method="post" class="form-horizontal">
+                        @method('PUT')
+                        @csrf
+                        <input type="hidden" name="id" id="id">
+                        <div class="form-group">
+                            <label for="cpf" class="col-sm-2 control-label">CPF:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="cpf" id="cpf" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Nome Completo:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="name" id="name" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone1" class="col-sm-2 control-label">Telefone 1:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="phone1" id="phone1" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone2" class="col-sm-2 control-label">Telefone 2:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="phone2"  id="phone2" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-white" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                         </div>
                     </form>
                 </div>
@@ -143,15 +205,76 @@
     <!--Encerra modal-->
 
 
-
 @endsection
 
 @push('scripts')
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $('#phone1').mask("(00) 00000-0000", {placeholder: "(00)00000-0000"});
             $('#phone2').mask("(00) 00000-0000", {placeholder: "(00)00000-0000"});
             $('#cpf').mask("000.000.000-00", {placeholder: "000.000.000.00"});
+        });
+
+        $("#edit-request-user").on('show.bs.modal',function(event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var cpf = button.data('cpf');
+            var name = button.data('name');
+            var phone1 = button.data('phone1');
+            var phone2 = button.data('phone2');
+            var modal = $(this);
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #cpf').val(cpf).mask("000.000.000-00", cpf);
+            modal.find('.modal-body #name').val(name);
+            modal.find('.modal-body #phone1').val(phone1).mask("(00) 00000-0000", phone1);
+            modal.find('.modal-body #phone2').val(phone2).mask("(00) 00000-0000", phone2);
+        });
+
+        $("#delete-request-user").on('click', function(event){
+            event.preventDefault();
+            var id = $(this).data('id');
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+            swal({
+                    title: "Tem Certeza?",
+                    text: "Uma vez deletado o registro não poderá ser restaurado!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim, Deletar",
+                    closeOnConfirm: false
+                },
+                function(isConfirm) {
+                    if (isConfirm){
+                        $.ajax({
+                            headers:{
+                                'X-CSRF-Token' : csrf_token
+                            },
+                            type: "POST",
+                            url: "{{url('/setores/delete')}}",
+                            data: {id:id},
+                            success: function (data) {
+                                console.log(data)
+                                swal({
+                                    type: 'success',
+                                    title: 'Sucesso!',
+                                    text: 'O Registro foi deletado com sucesso!',
+                                    timer:2000
+                                });
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            }
+                        });
+                    } else {
+                        swal({
+                            title : "Cancelado",
+                            type : "error",
+                            text : "Seu registro está salvo!"
+                        })
+                    }
+                });
+
         });
     </script>
 @endpush
