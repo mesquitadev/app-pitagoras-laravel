@@ -58,14 +58,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
                                         @foreach($requests as $r)
-                                            <td>{{$r->key}}</td>
-                                            <td>{{$r->username}}</td>
-                                            <td>
-                                                <span class="label label-danger"> Saída </span>
-                                                {{\Carbon\Carbon::parse($r->loan_date )->format(' d/m/Y  H:i:s ')}}
-                                            </td>
+                                            <tr>
+                                                <td>{{$r->key}}</td>
+                                                <td>{{$r->username}}</td>
+                                                <td>
+                                                    <span class="label label-danger"> Saída </span>
+                                                    {{\Carbon\Carbon::parse($r->loan_date )->format(' d/m/Y  H:i:s ')}}
+                                                </td>
 
                                                 @if ($r->devolution_date == null)
                                                     <td>
@@ -77,8 +77,8 @@
                                                         {{\Carbon\Carbon::parse($r->loan_date)->format('d/m/Y')}}
                                                     </td>
                                                 @endif
+                                            </tr>
                                         @endforeach
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

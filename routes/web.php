@@ -33,7 +33,8 @@ Route::group(['middleware' => 'auth'], function (){
 
     //Tipos de Chave
     Route::get('/chaves/tipos', 'TypeController@index')->name('type-key.index');
-    Route::get('/chaves/tipos/novo', 'TypeController@create')->name('type-key.create');
+    Route::put('/chaves/tipos/update', 'TypeController@index')->name('type-key.update');
+    Route::post('/chaves/tipos/delete', 'TypeController@destroy')->name('type-key.destroy');
     Route::post('/chaves/tipos/store', 'TypeController@store')->name('type-key.store');
 
     //Requisição
@@ -50,8 +51,9 @@ Route::group(['middleware' => 'auth'], function (){
 
     //Setores
     Route::get('/setores', 'SectorController@index')->name('sector.index');
-    Route::get('/setores/cadastrar', 'SectorController@create')->name('sector.create');
     Route::post('/setores/store', 'SectorController@store')->name('sector.store');
+    Route::put('/setores/update', 'SectorController@update')->name('sector.update');
+    Route::post('/setores/delete', 'SectorController@destroy')->name('sector.destroy');
     Route::get('/setores/info/{barcode}', 'KeyController@info')->name('sector.info');
 });
 Route::get('/home', 'HomeController@index')->name('home');

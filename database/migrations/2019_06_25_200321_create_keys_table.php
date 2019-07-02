@@ -20,11 +20,11 @@ class CreateKeysTable extends Migration
             $table->bigInteger('sector_id')->unsigned();
             $table->foreign('sector_id')
                   ->references('id')
-                  ->on('sectors');
+                  ->on('sectors')->onDelete('cascade');
             //Status => Disponível e Indisponivel
             $table->enum('status', ['D', 'I'])->default('D');
             $table->bigInteger('type_id')->unsigned();
-            $table->foreign('type_id')->references('id')->on('types');
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
             $table->timestamps();
         });
     }

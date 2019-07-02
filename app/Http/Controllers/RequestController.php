@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\RequestIsCreated;
 use App\Models\Keys;
 use App\Models\Requests;
+use App\Models\RequestUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,18 +38,18 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
-//        $this->validate($request, [
-//            'barcode' => 'required',
-//            'cpf' => 'required',
-//            'username' => 'required',
-//            'phone' => 'required',
-//            'key' => 'required',
-//            'type' => 'required',
-//            'service' => 'required',
-//            'company' => 'required',
-//            'manager' => 'required',
-//            'concierge' => 'required'
-//        ]);
+        $this->validate($request, [
+            'barcode' => 'required',
+            'cpf' => 'required',
+            'username' => 'required',
+            'phone' => 'required',
+            'key' => 'required',
+            'type' => 'required',
+            'service' => 'required',
+            'company' => 'required',
+            'manager' => 'required',
+            'concierge' => 'required'
+        ]);
         $data = new Requests([
             'cpf' => $request->get('cpf'),
             'barcode' => $request->get('barcode'),
@@ -63,41 +63,67 @@ class RequestController extends Controller
             'concierge' => $request->get('concierge')
         ]);
 
-        //Faz a Atualização do status da chave
-        $updateStatus = DB::table('keys')
-            ->where('barcode', $request->get('barcode'))
-            ->update(['status' => 'I']);
+        //Verifica se a chave já foi entregue
+        $keys = Keys::where('status', 'I');
 
-        if($updateStatus){
-            $data->save();
-        }
+        //Verifica se o usuário entegou a chave que solicitou
+        $userIsReturned = RequestUsers::where('cpf', $request->get('cpf'));
 
-        $response = $data->save();
 
-        if ($response) {
-            //Passa a notificação para a view para iterar no swal pela sessão
-            $notification = array(
-                'success' => true,
-                'title' => 'Sucesso!',
-                'message' => 'Chave solicitada com Sucesso!',
-                'alert-type' => 'success'
-            );
+        if(!$userIsReturned)
+        {
+            if(!$keys)
+            {
+                //Faz a Atualização do status da chave
+                $updateStatus = DB::table('keys')
+                    ->where('barcode', $request->get('barcode'))
+                    ->update(['status' => 'I']);
 
-        } elseif(!$this->validate){
-            $notification = array(
-                'error' => true,
-                'title' => 'Erro!',
-                'message' => 'Campos necessários não foram digitados!',
-                'alert-type' => 'error'
-            );
+                if($updateStatus){
+                    $data->save();
+                }
+
+                $response = $data->save();
+
+                if ($response) {
+                    //Passa a notificação para a view para iterar no swal pela sessão
+                    $notification = array(
+                        'success' => true,
+                        'title' => 'Sucesso!',
+                        'message' => 'Chave solicitada com Sucesso!',
+                        'alert-type' => 'success'
+                    );
+
+                } elseif(!$this->validate){
+                    $notification = array(
+                        'error' => true,
+                        'title' => 'Erro!',
+                        'message' => 'Campos necessários não foram digitados!',
+                        'alert-type' => 'error'
+                    );
+                } else {
+                    //Passa a notificação pela sessão para a view
+                    $notification = array(
+                        "error" => true,
+                        "message" => "Erro! Chave não cadastrada!",
+                        'alert-type' => 'warning'
+                    );
+
+                }
+            } else {
+                //Passa a notificação pela sessão para a view
+                $notification = array(
+                    "error" => true,
+                    "message" => "Erro! Chave Já emprestada!",
+                    'alert-type' => 'error'
+                );
+            }
         } else {
-            //Passa a notificação pela sessão para a view
             $notification = array(
                 "error" => true,
-                "message" => "Erro! Chave não cadastrada!",
-                'alert-type' => 'warning'
+                "message" => "Erro! O Usuário não devolveu a ultima chave solicitada!",
+                'alert-type' => 'error'
             );
-
         }
 
         return redirect()->back()->with($notification);

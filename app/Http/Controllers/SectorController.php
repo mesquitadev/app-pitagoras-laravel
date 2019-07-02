@@ -14,8 +14,8 @@ class SectorController extends Controller
      */
     public function index()
     {
-        //
-        return view('sectors.index');
+        $sectors = Sectors::all();
+        return view('sectors.index', compact('sectors'));
     }
 
     /**
@@ -26,7 +26,6 @@ class SectorController extends Controller
     public function create()
     {
         //
-        return view('sectors.create');
     }
 
     /**
@@ -62,7 +61,7 @@ class SectorController extends Controller
 
         }
 
-        return redirect('dashboard')->with($notification);
+        return redirect()->back()->with($notification);
 
     }
 
@@ -83,9 +82,11 @@ class SectorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+
+
+
     }
 
     /**
@@ -95,9 +96,30 @@ class SectorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+        $sector = Sectors::findOrFail($request->sector_id);
+        $data = $sector->update($request->all());
+
+        if($data){
+            $notification = array(
+                "error" => false,
+                "message" => "Sucesso! Dados atualizados com sucesso",
+                'alert-type' => 'success'
+            );
+            $sector->update($request->all());
+
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 
     /**
@@ -106,8 +128,28 @@ class SectorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $data = Sectors::find($request->id);
+
+        if($data != null){
+            $data->delete();
+
+            $notification = array(
+                "error" => false,
+                "message" => "Sucesso! Setor deletado com sucesso!",
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 }

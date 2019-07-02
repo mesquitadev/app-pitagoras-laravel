@@ -62,7 +62,7 @@ class TypeController extends Controller
 
         }
 
-        return redirect('dashboard')->with($notification);
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -105,8 +105,20 @@ class TypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $data = Types::find($request->id);
+
+        if($data != null){
+            return $data->delete();
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 }
