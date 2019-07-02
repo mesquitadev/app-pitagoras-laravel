@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f54bc4a-077a-4211-9198-b4ae2dc97343" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RequestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SectorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SectorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Sectors.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Sectors.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_06_25_200321_create_keys_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_06_25_200321_create_keys_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/request/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/request/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sectors/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sectors/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/type-key/create.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/type-key/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/type-key/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/KeyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/KeyController.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,11 +39,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/sectors/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
+            <state relative-caret-position="1193">
               <caret line="189" column="47" selection-start-line="189" selection-start-column="47" selection-end-line="189" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KeyController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+              <folding>
+                <element signature="e#40#60#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -128,7 +128,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/RequestUsersController.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/app/Models/Keys.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/KeyController.php" />
         <option value="$PROJECT_DIR$/app/Models/Requests.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_06_25_232010_create_requests_table.php" />
         <option value="$PROJECT_DIR$/README.md" />
@@ -144,6 +143,7 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/TypeController.php" />
         <option value="$PROJECT_DIR$/resources/views/type-key/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/sectors/index.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/KeyController.php" />
       </list>
     </option>
   </component>
@@ -400,12 +400,12 @@
       <workItem from="1561901554950" duration="2211000" />
       <workItem from="1561903862698" duration="331000" />
       <workItem from="1561904213897" duration="37168000" />
-      <workItem from="1561975221585" duration="10999000" />
+      <workItem from="1561975221585" duration="11903000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="123113000" />
+    <option name="totallyTimeSpent" value="124017000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="-6" width="1871" height="1086" extended-state="6" />
@@ -657,16 +657,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KeyController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-567">
-          <caret line="25" column="20" selection-start-line="21" selection-start-column="7" selection-end-line="25" selection-end-column="20" />
-          <folding>
-            <element signature="e#40#60#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/assets/js/plugins/sweetalert/sweetalert.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -793,8 +783,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/sectors/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
+        <state relative-caret-position="1193">
           <caret line="189" column="47" selection-start-line="189" selection-start-column="47" selection-end-line="189" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/KeyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+          <folding>
+            <element signature="e#40#60#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
