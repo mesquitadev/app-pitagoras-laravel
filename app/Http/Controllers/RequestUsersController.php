@@ -116,9 +116,10 @@ class RequestUsersController extends Controller
     public function update(Request $request)
     {
         $reqUser = RequestUsers::findOrFail($request->id);
-        $data = $reqUser->update($request->all());
         //Remove Máscara do CPF
-        $request->cpf = $this->removeMask($request->cpf);
+        $reqUser->cpf = $this->removeMask($request->cpf);
+        $data = $reqUser->update($request->all());
+
 
         if($data){
             $notification = array(
@@ -146,8 +147,28 @@ class RequestUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $data = RequestUsers::find($request->id);
+
+        if($data != null){
+            $data->delete();
+
+            $notification = array(
+                "error" => false,
+                "message" => "Sucesso! Solicitante deletado com sucesso!",
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 }

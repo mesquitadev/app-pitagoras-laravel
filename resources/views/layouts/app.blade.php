@@ -71,7 +71,7 @@
                         </li>
 
                         <li class="">
-                            <a href="{{route('request-user.index')}}">Cadastrar Requisitante</a>
+                            <a href="{{route('request-user.index')}}">Solicitantes</a>
                         </li>
                     </ul>
                 </li>

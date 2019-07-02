@@ -43,8 +43,10 @@ Route::group(['middleware' => 'auth'], function (){
 
     //Solicitantes
     Route::get('/solicitantes', 'RequestUsersController@index')->name('request-user.index');
-    Route::put('/solicitantes/update', 'RequestUsersController@update')->name('request-user.update');
     Route::post('/solicitantes/cadastrar/store', 'RequestUsersController@store')->name('request-user.store');
+    Route::put('/solicitantes/update', 'RequestUsersController@update')->name('request-user.update');
+    Route::post('/solicitantes/delete', 'RequestUsersController@destroy')->name('request-user.destroy');
+
     //Informações pela url
     Route::get('/solicitantes/info/{cpf}', 'RequestUsersController@info')->name('request-users.info');
 

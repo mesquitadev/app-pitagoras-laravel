@@ -158,8 +158,28 @@ class KeyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $data = Keys::findOrFail($request->id);
+
+        if($data != null){
+            $data->delete();
+
+            $notification = array(
+                "error" => false,
+                "message" => "Sucesso! Chave deletada com sucesso!",
+                'alert-type' => 'success'
+            );
+
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 }

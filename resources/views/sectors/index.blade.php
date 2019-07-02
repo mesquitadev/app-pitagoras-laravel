@@ -59,8 +59,7 @@
                                                     data-target="#edit-sector"
                                                     data-id="{{$s->id}}"
                                             >Editar</button>
-                                            <button class="btn btn-danger btn-xs" data-id="{{$s->id}}"
-                                                    id="delete-sector">Apagar</button>
+                                            <button class="btn btn-danger btn-xs delete-sector" data-id="{{$s->id}}">Apagar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -160,7 +159,7 @@
             modal.find('.modal-body #name').val(name);
         });
 
-        $("#delete-sector").on('click', function(event){
+        $(".delete-sector").on('click', function(event){
             event.preventDefault();
             var id = $(this).data('id');
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
