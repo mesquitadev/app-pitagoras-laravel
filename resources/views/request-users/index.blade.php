@@ -39,7 +39,6 @@
                         <table class="footable table table-stripped toggle-arrow-tiny">
                             <thead>
                             <tr>
-
                                 <th>#</th>
                                 <th>Nome</th>
                                 <th>Cpf</th>
@@ -205,13 +204,10 @@
         </div>
     </div>
     <!--Encerra modal-->
-
-
 @endsection
 
 @push('scripts')
     <script type="text/javascript">
-        console.log($("#delete-request-user").on('click'));
         $(document).ready(function () {
             $('#phone1').mask("(00) 00000-0000", {placeholder: "(00)00000-0000"});
             $('#phone2').mask("(00) 00000-0000", {placeholder: "(00)00000-0000"});
@@ -233,49 +229,48 @@
             modal.find('.modal-body #phone2').val(phone2).mask("(00) 00000-0000", phone2);
         });
 
-            $(".delete-request-user").on('click', function(event){
-                event.preventDefault();
-                var id = $(this).data('id');
-                var csrf_token = $('meta[name="csrf-token"]').attr('content');
-
-                swal({
-                        title: "Tem Certeza?",
-                        text: "Uma vez deletado o registro não poderá ser restaurado!",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Sim, Deletar",
-                        closeOnConfirm: false
-                    },
-                    function(isConfirm) {
-                        if (isConfirm){
-                            $.ajax({
-                                headers:{
-                                    'X-CSRF-Token' : csrf_token
-                                },
-                                type: "POST",
-                                url: "{{url('/solicitantes/delete')}}",
-                                data: {id:id},
-                                success: function (data) {
-                                    swal({
-                                        type: 'success',
-                                        title: 'Sucesso!',
-                                        text: 'O Registro foi deletado com sucesso!',
-                                        timer:2000
-                                    });
-                                    setTimeout(function () {
-                                        location.reload();
-                                    }, 2000);
-                                }
-                            });
-                        } else {
+        $(".delete-request-user").on('click', function(event){
+            event.preventDefault();
+            var id = $(this).data('id');
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            swal({
+                    title: "Tem Certeza?",
+                    text: "Uma vez deletado o registro não poderá ser restaurado!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim, Deletar",
+                    closeOnConfirm: false
+                },
+            function(isConfirm) {
+                if (isConfirm){
+                    $.ajax({
+                        headers:{
+                            'X-CSRF-Token' : csrf_token
+                        },
+                        type: "POST",
+                        url: "{{url('/solicitantes/delete')}}",
+                        data: {id:id},
+                        success: function (data) {
                             swal({
-                                title : "Cancelado",
-                                type : "error",
-                                text : "Seu registro está salvo!"
-                            })
+                                type: 'success',
+                                title: 'Sucesso!',
+                                text: 'O Registro foi deletado com sucesso!',
+                                timer:2000
+                            });
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
                         }
                     });
+                } else {
+                    swal({
+                        title : "Cancelado",
+                        type : "error",
+                        text : "Seu registro está salvo!"
+                    })
+                }
+            });
         });
     </script>
 @endpush
