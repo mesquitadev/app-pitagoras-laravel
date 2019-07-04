@@ -178,6 +178,24 @@
         @stack('scripts')
 
         <script type="text/javascript">
+
+            /*
+                Notificação toastr
+                 */
+            $(document).ready(function() {
+                setTimeout(function() {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Sistema Gerenciador de Chaves', 'Bem vindo ao SGC');
+
+                }, 1300);
+
+            });
+
             @if(Session::has('message'))
                 var type="{{Session::get('alert-type','info')}}";
                 switch(type){

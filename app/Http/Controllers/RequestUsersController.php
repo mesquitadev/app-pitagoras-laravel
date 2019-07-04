@@ -127,7 +127,8 @@ class RequestUsersController extends Controller
                 "message" => "Sucesso! Dados atualizados com sucesso",
                 'alert-type' => 'success'
             );
-            $reqUser->update($request->all());
+            $reqUser->cpf = $this->removeMask($request->cpf);
+            $reqUser->update();
 
             return redirect()->back()->with($notification);
         } else {
@@ -168,7 +169,7 @@ class RequestUsersController extends Controller
                 'alert-type' => 'error'
             );
 
-            return redirect()->back()->with($notification);
+                return redirect()->back()->with($notification);
         }
     }
 }

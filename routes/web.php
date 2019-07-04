@@ -28,8 +28,9 @@ Route::group(['middleware' => 'auth'], function (){
     //Chaves
     Route::get('/chaves', 'KeyController@index')->name('key.index');
     Route::get('/chaves/cadastrar', 'KeyController@create')->name('key.create');
-    Route::put('/chaves/update', 'KeyController@update')->name('key.update');
     Route::post('/chaves/cadastrar/store', 'KeyController@store')->name('key.store');
+    Route::patch('/chaves/update', 'KeyController@update')->name('key.update');
+    Route::post('/chaves/delete', 'KeyController@destroy')->name('key.destroy');
     Route::get('/chaves/info/{barcode}', 'KeyController@info')->name('key.info');
 
     //Tipos de Chave

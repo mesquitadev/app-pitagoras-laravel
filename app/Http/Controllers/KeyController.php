@@ -97,17 +97,6 @@ class KeyController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     public function info($barcode) {
 
         $data = DB::table('keys')
@@ -129,16 +118,6 @@ class KeyController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -147,9 +126,31 @@ class KeyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+//        dd($request->all());
+        $key = Keys::findOrFail($request->id);
+        $data = $key->update($request->all());
+
+
+        if($data){
+            $notification = array(
+                "error" => false,
+                "message" => "Sucesso! Dados atualizados com sucesso",
+                'alert-type' => 'success'
+            );
+            $key->update($request->all());
+
+            return redirect()->back()->with($notification);
+        } else {
+            $notification = array(
+                "error" => false,
+                "message" => "Erro! Dados não atualizados!",
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 
     /**

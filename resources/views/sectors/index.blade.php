@@ -183,7 +183,6 @@
                             url: "{{url('/setores/delete')}}",
                             data: {id:id},
                             success: function (data) {
-                                console.log(data)
                                 swal({
                                     type: 'success',
                                     title: 'Sucesso!',
@@ -199,7 +198,8 @@
                         swal({
                             title : "Cancelado",
                             type : "error",
-                            text : "Seu registro está salvo!"
+                            text : "Seu registro está salvo!",
+                            timer:2000
                         })
                     }
                 });
