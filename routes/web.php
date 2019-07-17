@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('/solicitar', 'DashboardController@index')->name('request.index');
     Route::get('/solicitar/novo', 'DashboardController@store')->name('request.store');
 
+
     //Chaves
     Route::get('/chaves', 'KeyController@index')->name('key.index');
     Route::get('/chaves/cadastrar', 'KeyController@create')->name('key.create');

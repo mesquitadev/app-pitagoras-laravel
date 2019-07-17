@@ -52,7 +52,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {{$keys}}
                             @foreach($keys as $k)
                             <tr>
                                 <td class="over">{{$k->id}}</td>
@@ -83,13 +82,13 @@
                                            data-id="{{$k->id}}"
                                         ><i class="fa fa-credit-card"></i> Cartão</button>
                                         <button class="btn-warning btn btn-xs"
-                                                data-id="{{$keys->id}}"
-                                                data-name="{{$keys->name}}"
-                                                data-barcode="{{$keys->barcode}}"
-                                                data-sector="{{$keys->sector}}"
-                                                data-sector-id="{{$keys->sector_id}}"
-                                                data-type-id="{{$keys->type_id}}"
-                                                data-type="{{$keys->type}}"
+                                                data-id="{{$k->id}}"
+                                                data-name="{{$k->name}}"
+                                                data-barcode="{{$k->barcode}}"
+                                                data-sector="{{$k->sector}}"
+                                                data-sector-id="{{$k->sector_id}}"
+                                                data-type-id="{{$k->type_id}}"
+                                                data-type="{{$k->type}}"
                                                 data-toggle="modal"
                                                 data-target="#edit-key"
                                         ><i class="fa fa-edit"></i> Editar</button>
@@ -141,7 +140,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Código de Barras</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="barcode" value="{{date( 'dmYHi') + 50}}"
+                                <input type="text" class="form-control" name="barcode" value="{{date( 'dmYHis')}}"
                                        required readonly>
                             </div>
                         </div>
@@ -176,7 +175,7 @@
                             <div class="col-sm-4">
                                 <svg class="barcode"
                                      jsbarcode-format="CODE128"
-                                     jsbarcode-value="{{date( 'dmYHi') +50}}"
+                                     jsbarcode-value="{{date( 'dmYHi') + 50}}"
                                      jsbarcode-textmargin="0"
                                      jsbarcode-fontoptions="bold">
                                 </svg>
